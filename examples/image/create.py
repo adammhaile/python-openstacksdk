@@ -20,18 +20,17 @@ http://developer.openstack.org/sdks/python/openstacksdk/users/guides/image.html
 """
 
 
-def upload_image(conn):
+def upload_image(conn, image_path):
     print("Upload Image:")
 
-    # Load fake image data for the example.
-    data = 'This is fake image data.'
-
-    # Build the image attributes and upload the image.
-    image_attrs = {
-        'name': EXAMPLE_IMAGE_NAME,
-        'data': data,
-        'disk_format': 'raw',
-        'container_format': 'bare',
-        'visibility': 'public',
-    }
-    conn.image.upload_image(**image_attrs)
+    # open handle to image file to be uploaded
+    with open(image_path, 'rb') as image_data:
+        # Build the image attributes and upload the image.
+        image_attrs = {
+            'name': EXAMPLE_IMAGE_NAME,
+            'data': image_data,
+            'disk_format': 'raw',
+            'container_format': 'bare',
+            'visibility': 'public',
+        }
+        conn.image.upload_image(**image_attrs)
